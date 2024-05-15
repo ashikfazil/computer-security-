@@ -1,0 +1,65 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Ensures the bottom bar stays at the bottom */
+}
+
+.top-nav {
+    background-color: #000;
+    color: #fff;
+    padding: 10px 20px;
+}
+
+.top-nav .logo {
+    display: flex;
+    align-items: center;
+}
+
+.top-nav .logo img {
+    height: 30px;
+    margin-right: 10px;
+}
+
+.container {
+    flex: 1; /* Takes up remaining vertical space */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+h1 {
+    color: #333;
+}
+
+.button-container {
+    margin-top: 30px;
+}
+
+.button {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 18px;
+    text-decoration: none;
+    color: #fff;
+    background-color: #007bff;
+    border-radius: 5px;
+    margin-right: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.button:hover {
+    background-color: #0056b3;
+}
+
+.bottom-bar {
+    background-color: #000;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+    flex-shrink: 0; /* Prevents the bottom bar from shrinking */
+}

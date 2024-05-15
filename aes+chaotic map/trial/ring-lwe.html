@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ring-LWE Encryption Example</title>
+    <script>
+        // JavaScript code here (Ring-LWE implementation)
+        const N = 256; // Ring dimension
+        const q = 40961; // Modulus
+        const stdDev = 8; // Standard deviation
+
+        function generateRandomPolynomial() {
+            const polynomial = [];
+            for (let i = 0; i < N; i++) {
+                polynomial.push(Math.floor(Math.random() * (2 * stdDev + 1)) - stdDev);
+            }
+            return polynomial;
+        }
+
+        function generateRandomError() {
+            const error = [];
+            for (let i = 0; i < N; i++) {
+                error.push(Math.floor(Math.random() * (2 * stdDev + 1)) - stdDev);
+            }
+            return error;
+        }
+
+        function generateKeyPair() {
+            const privateKey = generateRandomPolynomial();
+            const error = generateRandomError();
+            const publicKey = privateKey.map((coeff, index) => (coeff + error[index]) % q);
+            return { privateKey, publicKey };
+        }
+
+        function ringLWEEncrypt(message, publicKey) {
+            const error = generateRandomError();
+            const scaledPublicKey = publicKey.map(coeff => (coeff * stdDev) % q);
+            const ciphertext = scaledPublicKey.map((coeff, index) => (coeff + error[index] + message[index]) % q);
+            return ciphertext;
+        }
+
+        function ringLWEDecrypt(ciphertext, privateKey) {
+            const scaledPrivateKey = privateKey.map(coeff => (coeff * stdDev) % q);
+            const message = ciphertext.map((coeff, index) => (coeff - scaledPrivateKey[index] + q) % q);
+            return message;
+        }
+
+        // Example usage
+        const { privateKey, publicKey } = generateKeyPair();
+        const plaintext = generateRandomPolynomial();
+        const ciphertext = ringLWEEncrypt(plaintext, publicKey);
+        const decryptedText = ringLWEDecrypt(ciphertext, privateKey);
+    </script>
+</head>
+<body>
+    <h1>Ring-LWE Encryption Example</h1>
+    <div id="output"></div>
+
+    <script>
+        // Display results
+        const outputDiv = document.getElementById('output');
+        outputDiv.innerHTML = `
+            <p><strong>Private Key:</strong> ${privateKey.join(', ')}</p>
+            <p><strong>Public Key:</strong> ${publicKey.join(', ')}</p>
+            <p><strong>Plaintext:</strong> ${plaintext.join(', ')}</p>
+            <p><strong>Ciphertext:</strong> ${ciphertext.join(', ')}</p>
+            <p><strong>Decrypted Text:</strong> ${decryptedText.join(', ')}</p>
+        `;
+    </script>
+</body>
+</html>

@@ -1,0 +1,141 @@
+.info-box {
+    text-align: center;
+    margin: 20px auto; /* Adjust margin as needed */
+    padding: 20px;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    width: 80%; /* Adjust width as needed */
+    max-width: 600px; /* Set maximum width */
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.progress-container {
+    text-align: center;
+    margin: 20px auto; /* Adjust margin as needed */
+    width: 80%; /* Adjust width as needed */
+    max-width: 600px; /* Set maximum width */
+}
+
+#upload-progress {
+    width: 100%;
+    height: 20px; /* Adjust height as needed */
+}
+
+
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+}
+
+.top-nav {
+    background-color: #000;
+    color: #fff;
+    padding: 10px 20px;
+}
+
+.top-nav .logo {
+    display: flex;
+    align-items: center;
+}
+
+.top-nav .logo img {
+    height: 30px;
+    margin-right: 10px;
+}
+
+h1 {
+    text-align: center;
+    margin-top: 20px;
+    color: #333;
+}
+
+#fileInput {
+    display: block;
+    margin: 20px auto;
+}
+
+button {
+    display: block;
+    margin: 0 auto;
+    padding: 10px 20px;
+    font-size: 18px;
+    text-decoration: none;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+#image-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+#image-container img {
+    max-width: 100%;
+    max-height: 300px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.bottom-bar {
+    background-color: #000;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+.top-nav {
+    background-color: #000;
+    color: #fff;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between; /* Align items to the start and end of the container */
+}
+
+.top-nav .logo {
+    display: flex;
+    align-items: center;
+}
+
+.top-nav .logo img {
+    height: 30px;
+    margin-right: 10px;
+}
+
+.top-nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.top-nav ul li {
+    display: inline-block; /* Display list items horizontally */
+}
+
+.top-nav ul li a {
+    display: block;
+    padding: 10px;
+    color: #fff;
+    text-decoration: none;
+}
+
+h1 {
+    text-align: center;
+    margin-top: 20px;
+    color: #333;
+}
+
+

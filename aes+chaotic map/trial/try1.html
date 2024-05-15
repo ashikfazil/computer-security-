@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AES Encryption of Image</title>
+    <script>
+        async function encryptImage() {
+            // Load the image
+            const response = await fetch('logo.jpeg');
+            const imageData = await response.arrayBuffer();
+
+            // Generate a random encryption key
+            const key = await window.crypto.subtle.generateKey(
+                { name: 'AES-GCM', length: 256 },
+                true,
+                ['encrypt', 'decrypt']
+            );
+
+            // Encrypt the image data
+            const encryptedImageData = await window.crypto.subtle.encrypt(
+                { name: 'AES-GCM', iv: new Uint8Array(12) },
+                key,
+                imageData
+            );
+
+            // Display the encrypted image data
+            const encryptedDataString = Array.from(new Uint8Array(encryptedImageData))
+                .map(byte => ('00' + byte.toString(16)).slice(-2))
+                .join('');
+            document.getElementById('encryptedData').textContent = encryptedDataString;
+
+            // Save the encryption key
+            const keyData = await window.crypto.subtle.exportKey('raw', key);
+            const keyString = Array.from(new Uint8Array(keyData))
+                .map(byte => ('00' + byte.toString(16)).slice(-2))
+                .join('');
+            document.getElementById('encryptionKey').textContent = keyString;
+        }
+
+        async function decryptImage() {
+            // Get the encrypted image data and encryption key from the UI
+            const encryptedDataString = document.getElementById('encryptedData').textContent;
+            const encryptedImageData = new Uint8Array(encryptedDataString.match(/.{1,2}/g).map(byte => parseInt(byte, 16)));
+            const keyString = document.getElementById('encryptionKey').textContent;
+            const keyData = new Uint8Array(keyString.match(/.{1,2}/g).map(byte => parseInt(byte, 16)));
+
+            // Import the encryption key
+            const key = await window.crypto.subtle.importKey(
+                'raw',
+                keyData,
+                { name: 'AES-GCM', length: 256 },
+                true,
+                ['encrypt', 'decrypt']
+            );
+
+            // Decrypt the encrypted image data
+            const decryptedImageData = await window.crypto.subtle.decrypt(
+                { name: 'AES-GCM', iv: new Uint8Array(12) },
+                key,
+                encryptedImageData
+            );
+
+            // Convert ArrayBuffer to Blob
+            const decryptedImageBlob = new Blob([decryptedImageData], { type: 'image/jpeg' });
+
+            // Save the decrypted image as a file
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(decryptedImageBlob);
+            link.download = 'decrypted.jpg';
+            link.click();
+        }
+    </script>
+</head>
+<body>
+    <button onclick="encryptImage()">Encrypt Image</button>
+    <div>
+        <h2>Encrypted Image Data:</h2>
+        <pre id="encryptedData"></pre>
+        <h2>Encryption Key:</h2>
+        <pre id="encryptionKey"></pre>
+    </div>
+    <button onclick="decryptImage()">Decrypt Image and Save</button>
+</body>
+</html>

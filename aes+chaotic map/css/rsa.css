@@ -1,0 +1,103 @@
+
+.field, #button {
+    margin-bottom: 20px;
+}
+
+
+body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        margin: 0;
+        padding: 0;
+    }
+.field > .download {
+    float: right;
+}
+
+input, textarea {
+    background-color: #ffffff;
+    width: 100%;
+    color: #000000;
+}
+
+button, input[type=file] {
+    padding: 10px;
+    font-size: 20px;
+    background-color: #007bff;
+    color: #ffffff;
+}
+
+.header-description {
+    margin-bottom: 30px;
+}
+
+#message {
+    display: inline-block;
+    margin-left: 15px;
+}
+
+.top-nav {
+    background-color: #000;
+    color: #fff;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between; /* Align items to the start and end of the container */
+}
+
+.top-nav .logo {
+    display: flex;
+    align-items: center;
+}
+
+.top-nav .logo img {
+    height: 30px;
+    margin-right: 10px;
+}
+
+.top-nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.top-nav ul li {
+    display: inline-block; /* Display list items horizontally */
+}
+
+.top-nav ul li a {
+    display: block;
+    padding: 10px;
+    color: #fff;
+    text-decoration: none;
+}
+
+
+a {
+    color: #ffffff;
+}
+
+
+#result {
+    display: none;
+}
+h1{
+    color: #252525;
+}
+h3{
+    color: #252525;
+}
+h2{
+    color: #252525;
+}
+label{
+    color: #252525;
+}
+.bottom-bar {
+    background-color: #000;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NTRUEncrypt Encryption and Decryption</title>
+</head>
+<body>
+    <h1>NTRUEncrypt Encryption and Decryption</h1>
+    <label for="message">Message:</label>
+    <input type="text" id="message" value="Hello, NTRUEncrypt!">
+    <button onclick="encryptAndDecrypt()">Encrypt and Decrypt</button>
+    <h2>Encrypted Message (Polynomial):</h2>
+    <pre id="encryptedPoly"></pre>
+    <h2>Decrypted Message:</h2>
+    <pre id="decryptedMessage"></pre>
+
+    <script>
+        // NTRUEncrypt Parameters
+        const N = 251; // Ring degree
+        const p = 3;   // Polynomial modulus
+        const q = 2048; // Coefficient modulus
+
+        // NTRUEncrypt encryption
+        function encrypt(message, publicKey) {
+            const messageBytes = Array.from(message).map(char => char.charCodeAt(0)); // Convert characters to ASCII values
+            const encryptedPoly = messageBytes.map((byte, index) => (byte * publicKey.h[index]) % q); // Multiply by public key polynomial
+            return encryptedPoly;
+        }
+
+        // NTRUEncrypt decryption
+        function decrypt(encryptedPoly, privateKey) {
+            const decryptedPoly = encryptedPoly.map((coeff, index) => (coeff * privateKey.f[index] * privateKey.g[index]) % q);
+            const decryptedBytes = decryptedPoly.map(coeff => String.fromCharCode(coeff)); // Convert coefficients back to characters
+            let decryptedMessage = decryptedBytes.join('').replace(/\u0000/g, ''); // Join characters into a string and remove null characters
+            // Pad the decrypted message with null characters to match the original length
+            decryptedMessage += '\0'.repeat(N - (decryptedMessage.length % N));
+            return decryptedMessage;
+        }
+
+        // Generate a random polynomial
+        function generateRandomPolynomial(deg) {
+            const poly = [];
+            for (let i = 0; i <= deg; i++) {
+                poly.push(Math.floor(Math.random() * q)); // Coefficients between 0 and q-1
+            }
+            return poly;
+        }
+
+        // Generate a random public/private key pair
+        function generateKeyPair() {
+            const f = generateRandomPolynomial(N);
+            const g = generateRandomPolynomial(N);
+            const h = generateRandomPolynomial(N);
+
+            return {
+                publicKey: { N: N, p: p, q: q, h: h },
+                privateKey: { N: N, p: p, q: q, f: f, g: g }
+            };
+        }
+
+        // Encrypt and decrypt the message
+        function encryptAndDecrypt() {
+            const message = document.getElementById('message').value;
+            const { publicKey, privateKey } = generateKeyPair();
+
+            const encryptedPoly = encrypt(message, publicKey);
+            const decryptedMessage = decrypt(encryptedPoly, privateKey);
+
+            document.getElementById('encryptedPoly').textContent = JSON.stringify(encryptedPoly);
+            document.getElementById('decryptedMessage').textContent = decryptedMessage;
+        }
+    </script>
+</body>
+</html>

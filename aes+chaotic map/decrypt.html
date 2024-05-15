@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Decryption</title>
+    <link rel="stylesheet" href="css/decrypt.css">
+    <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-storage-compat.js"></script>
+</head>
+<body>
+    <nav class="top-nav">
+        <div class="logo">
+            <img src="logo copy.jpeg" alt="Logo">
+            <span>Cloud Based Image Secure Storage</span>
+        </div>
+        <ul>
+            <li><a href="encrypt.html">Encrypt</a></li>
+            <li><a href="decrypt.html">Decrypt</a></li>
+            <li><a href="generate-keys.html">RSA Key</a></li>
+            <li><a href="encrypt-text.html">Key Encrypt</a></li>
+            <li><a href="decrypt-text.html">Key Decrypt</a></li>
+        </ul>
+    </nav>
+    <h1>Image Decryption</h1>
+    <div class="form-container">
+        <label for="uid">Unique ID:</label>
+        <input type="text" id="uid" placeholder="Enter Unique ID">
+        <label for="aesKey">AES Key:</label>
+        <input type="text" id="aesKey" placeholder="Enter AES Key">
+        <button onclick="decryptAndDisplay()">Decrypt Image</button>
+    </div>
+    <div id="image-container"></div>
+    <button id="download-btn" onclick="downloadImage()">Download Image</button>
+    <br><br><br>
+    <script src="js/decrypt.js"></script>
+    <footer class="bottom-bar">
+        <span>&copy; 2024 Image Decryption App</span>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>RSA Encrypt Text</title>
+        <link rel="stylesheet" href="css/rsa.css" />
+    </head>
+
+    <body>
+        <nav class="top-nav">
+            <div class="logo">
+                <img src="logo copy.jpeg" alt="Logo">
+                <span>Cloud Based Image Secure Storage</span>
+            </div>
+            <ul>
+                <li><a href="encrypt.html">Encrypt</a></li>
+                <li><a href="decrypt.html">Decrypt</a></li>
+                <li><a href="generate-keys.html">RSA Key</a></li>
+                <li><a href="encrypt-text.html">Key Encrypt</a></li>
+                <li><a href="decrypt-text.html">Key Decrypt</a></li>
+    
+            </ul>
+        </nav>
+        <div class="page">
+            <h1>RSA Encrypt Text</h1>
+            <div class="field">
+                <label for="public-key">RSA Public Key</label>
+                <textarea id="public-key" rows="10"></textarea>
+            </div>
+
+            <div class="field">
+                <label for="text-to-encrypt">Text to Encrypt</label>
+                <textarea id="text-to-encrypt" rows="10"></textarea>
+            </div>
+
+            <button id="button">Encrypt Text</button>
+            <div id="message"></div>
+
+            <div id="result" class="field">
+                <label for="encrypted-text">Encrypted Text</label>
+                <a id="encrypted-download" class="download" download="encrypted.txt">encrypted.txt</a>
+                <textarea id="encrypted-text" rows="10" readonly></textarea>
+            </div>
+        </div>
+        <br><br><br><br>
+        <footer class="bottom-bar">
+            <span>&copy; 2024 Image Encryption App</span>
+        </footer>
+    </body>
+
+    <script src="js/encoding-helper.js"></script>
+    <script src="js/encryption-helper.js"></script>
+    <script>
+        (function () {
+            var publicKey = document.getElementById("public-key");
+            var textToEncrypt = document.getElementById("text-to-encrypt");
+            var button = document.getElementById("button");
+            var message = document.getElementById("message");
+            var encryptedText = document.getElementById("encrypted-text");
+            var encryptedDownload = document.getElementById("encrypted-download");
+            var result = document.getElementById("result");
+
+            var success = function (data) {
+                encryptedText.value = arrayBufferToPem(data, "RSA TEXT");
+                encryptedDownload.href = window.URL.createObjectURL(
+                    new Blob([encryptedText.value], { type: "text/plain" }));
+                result.style.display = "block";
+                message.innerText = null;
+                button.disabled = false;
+            };
+
+            var error = function (error) {
+                message.innerText = error;
+                button.disabled = false;
+            };
+
+            var process = function () {
+                message.innerText = "Processing...";
+                button.disabled = true;
+
+                if (publicKey.value.trim() === "")
+                    return error("Public key must be specified.");
+
+                var publicKeyArrayBuffer = null;
+                try { publicKeyArrayBuffer = pemToArrayBuffer(publicKey.value.trim()); }
+                catch (_) { return error("Public key is invalid."); }
+
+                if (textToEncrypt.value.trim() === "")
+                    return error("Text to encrypt must be specified.");
+
+                var data = new TextEncoder().encode(textToEncrypt.value);
+
+                rsaEncrypt(data, publicKeyArrayBuffer).then(success, error);
+            }; 
+
+            button.addEventListener("click", process);
+        })();
+    </script>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Retrieve Encrypted Image Data</title>
+</head>
+<body>
+    <h1>Retrieve Encrypted Image Data</h1>
+    <div class="form-container">
+        <label for="uidInput">Enter UID:</label>
+        <input type="text" id="uidInput" placeholder="UID">
+        <button onclick="getImageDataByUID()">Fetch Image Data</button>
+    </div>
+    <div>
+        <h3>Encrypted Image Data:</h3>
+        <pre id="encryptedImageData"></pre>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-database-compat.js"></script>
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDPRwE7iDJMwU-mKPoc7XcHWfcKh1PUkuU",
+            authDomain: "computer-security-7bda4.firebaseapp.com",
+            databaseURL: "https://computer-security-7bda4-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "computer-security-7bda4",
+            storageBucket: "computer-security-7bda4.appspot.com",
+            messagingSenderId: "563562292542",
+            appId: "1:563562292542:web:d559f56deec8d8b5d4b86f",
+            measurementId: "G-93CXMMDS8R"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        // Function to retrieve encrypted image data by UID
+        async function getImageDataByUID() {
+            // Get the UID input
+            const uidInput = document.getElementById('uidInput').value.trim();
+            if (!uidInput) {
+                alert('Please enter a UID.');
+                return;
+            }
+
+            // Get a reference to the Firebase Realtime Database
+            const databaseRef = firebase.database().ref('encrypted_images');
+
+            try {
+                // Query the database for the encrypted image data with the specified UID
+                const snapshot = await databaseRef.orderByChild('uid').equalTo(uidInput).once('value');
+                const imageData = snapshot.val();
+
+                if (!imageData) {
+                    alert('No image data found for the provided UID.');
+                    return;
+                }
+
+                // Get the encrypted image data from the snapshot
+                const encryptedDataString = Object.values(imageData)[0].imageData;
+
+                // Display the encrypted image data on the screen
+                document.getElementById('encryptedImageData').textContent = encryptedDataString;
+            } catch (error) {
+                console.error('Error fetching image data from Firebase Database:', error);
+                alert('Error fetching image data from Firebase Database.');
+            }
+        }
+    </script>
+</body>
+</html>
